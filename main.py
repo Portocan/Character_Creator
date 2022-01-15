@@ -1,3 +1,7 @@
+from pprint import pprint
+from PyInquirer import prompt
+
+
 class Name:
 
     def __init__(self):
@@ -22,9 +26,9 @@ class Name:
             last = input("What's your last name? ")
             self.checkname(last)
 
-        self.badname = True     #resetting badname check
+        self.badname = True  # resetting badname check
 
-        #formatting player name
+        # formatting player name
         self.firstname = first.title()
         self.lastname = last.title()
         return self.lastname, self.firstname
@@ -37,11 +41,11 @@ class Name:
             self.checkname(charname)
 
         self.badname = True
-        #formatting  character name
+        # formatting  character name
         self.charname = charname.title()
         return self.charname
 
-    #Used to check names for numbers and flag them if that is the case
+    # Used to check names for numbers and flag them if that is the case
     def checkname(self, name):
         for letter in name:
             if letter.isdigit():
@@ -55,7 +59,33 @@ class Name:
 class Job:
 
     def __init__(self):
-        self.charjob = ""
+        self.nojob = True
+        self.checkjob = {}
+
+    # showing job options
+    def showjob(self):
+        questions = {
+            "type": "list",
+            "name": "job",
+            "message": "Choose your class",
+            "choices": ["Archer", "Barbarian", "Cleric", "Druid", "Fighter"]
+        }
+        self.checkjob = prompt(questions)
+        self.nojob = False
+
+    def listjob(self):
+        if self.checkjob.get("job") == "Barbarian":
+            print(
+                  """
+                  Barbarian Statistics:
+                  STR + 2
+                  CON + 1
+                  INT - 1
+                  WIS - 1
+                  """
+                  )
+        elif self.checkjob.get("job") == "Rogue":
+            pass
 
 
 class Character(Name, Job):
@@ -64,16 +94,22 @@ class Character(Name, Job):
 
 
 class Play:
-
     print("Welcome to my character creator!")
-    #player name creation
+    # player name creation
     player = Character()
     player.playername()
     print("Welcome " + player.firstname, player.lastname + " please enjoy my Character Creator.")
 
-    #character name creation
+    # character name creation
     player.avname()
     print(player.charname + " is a fine name!")
+
+    player.nojob = True
+
+    while player.nojob:
+        player.showjob()
+        player.listjob()
+        pprint(player.checkjob)
 
 
 if __name__ == "__main__":
