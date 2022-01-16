@@ -128,14 +128,17 @@ class Job:
     def listjob(self):
         print(
             """
+            
+            {}
             STR: {}
             DEX: {}
             CON: {}
             INT: {}
             WIS: {}
             CHA: {}
+            
             """
-            .format(self.str, self.dex, self.con, self.int, self.wis, self.cha)
+            .format(self.checkjob.get("job"), self.str, self.dex, self.con, self.int, self.wis, self.cha)
         )
         questions = {
             "type": "confirm",
@@ -144,7 +147,6 @@ class Job:
         }
         self.confirmjob = prompt(questions)
         if self.confirmjob.get("jobconf") is True:
-            print("True")
             self.nojob = False
         else:
             self.nojob = True
@@ -157,6 +159,7 @@ class Character(Name, Job):
 
 class Play:
     print("Welcome to my character creator!")
+
     # player name creation
     player = Character()
     player.playername()
@@ -168,7 +171,6 @@ class Play:
 
     # player job selection
     player.nojob = True
-
     while player.nojob:
         player.showjob()
         player.addclassstats()
