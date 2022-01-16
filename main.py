@@ -61,6 +61,13 @@ class Job:
     def __init__(self):
         self.nojob = True
         self.checkjob = {}
+        self.confirmjob = {}
+        self.str = 0
+        self.dex = 0
+        self.con = 0
+        self.int = 0
+        self.wis = 0
+        self.cha = 0
 
     # showing job options
     def showjob(self):
@@ -68,24 +75,79 @@ class Job:
             "type": "list",
             "name": "job",
             "message": "Choose your class",
-            "choices": ["Archer", "Barbarian", "Cleric", "Druid", "Fighter"]
+            "choices": ["Archer", "Barbarian", "Cleric", "Druid", "Fighter", "Wizard"]
         }
         self.checkjob = prompt(questions)
         self.nojob = False
 
+    # assigning stats based on class
+    def addclassstats(self):
+        if self.checkjob.get("job") == "Archer":
+            self.str = 0
+            self.dex = 1
+            self.con = 1
+            self.int = -1
+            self.wis = 0
+            self.cha = -1
+        elif self.checkjob.get("job") == "Barbarian":
+            self.str = 2
+            self.dex = 0
+            self.con = 1
+            self.int = -1
+            self.wis = -1
+            self.cha = 0
+        elif self.checkjob.get("job") == "Cleric":
+            self.str = -2
+            self.dex = 0
+            self.con = 1
+            self.int = 0
+            self.wis = 2
+            self.cha = 0
+        elif self.checkjob.get("job") == "Druid":
+            self.str = -1
+            self.dex = 1
+            self.con = 1
+            self.int = 0
+            self.wis = 2
+            self.cha = -1
+        elif self.checkjob.get("job") == "Fighter":
+            self.str = 1
+            self.dex = 1
+            self.con = 1
+            self.int = -1
+            self.wis = 0
+            self.cha = 0
+        elif self.checkjob.get("job") == "Wizard":
+            self.str = -1
+            self.dex = 0
+            self.con = -1
+            self.int = 2
+            self.wis = 0
+            self.cha = 1
+
     def listjob(self):
-        if self.checkjob.get("job") == "Barbarian":
-            print(
-                  """
-                  Barbarian Statistics:
-                  STR + 2
-                  CON + 1
-                  INT - 1
-                  WIS - 1
-                  """
-                  )
-        elif self.checkjob.get("job") == "Rogue":
-            pass
+        print(
+            """
+            STR: {}
+            DEX: {}
+            CON: {}
+            INT: {}
+            WIS: {}
+            CHA: {}
+            """
+            .format(self.str, self.dex, self.con, self.int, self.wis, self.cha)
+        )
+        questions = {
+            "type": "confirm",
+            "name": "jobconf",
+            "message": "Would you like to select this class?"
+        }
+        self.confirmjob = prompt(questions)
+        if self.confirmjob.get("jobconf") is True:
+            print("True")
+            self.nojob = False
+        else:
+            self.nojob = True
 
 
 class Character(Name, Job):
@@ -104,12 +166,15 @@ class Play:
     player.avname()
     print(player.charname + " is a fine name!")
 
+    # player job selection
     player.nojob = True
 
     while player.nojob:
         player.showjob()
+        player.addclassstats()
         player.listjob()
-        pprint(player.checkjob)
+
+    pprint("End of program")
 
 
 if __name__ == "__main__":
