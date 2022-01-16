@@ -5,63 +5,63 @@ from PyInquirer import prompt
 class Name:
 
     def __init__(self):
-        self.firstname = ""
-        self.lastname = ""
-        self.charname = ""
-        self.badname = True
+        self.first_name = ""
+        self.last_name = ""
+        self.char_name = ""
+        self.bad_name = True
 
-    def playername(self):
+    def player_name(self):
         first = ""
         last = ""
         print("First thing is first, I'm going to have you enter your name.")
 
-        while self.badname:
+        while self.bad_name:
             first = input("What's your first name? ")
-            self.checkname(first)
+            self.check_name(first)
 
-        # resetting badname check
-        self.badname = True
+        # resetting bad_name check
+        self.bad_name = True
 
-        while self.badname:
+        while self.bad_name:
             last = input("What's your last name? ")
-            self.checkname(last)
+            self.check_name(last)
 
-        self.badname = True  # resetting badname check
+        self.bad_name = True  # resetting bad_name check
 
         # formatting player name
-        self.firstname = first.title()
-        self.lastname = last.title()
-        return self.lastname, self.firstname
+        self.first_name = first.title()
+        self.last_name = last.title()
+        return self.last_name, self.first_name
 
-    def avname(self):
-        charname = ""
+    def av_name(self):
+        char_name = ""
 
-        while self.badname:
-            charname = input("Now, please enter your character's name. ")
-            self.checkname(charname)
+        while self.bad_name:
+            char_name = input("Now, please enter your character's name. ")
+            self.check_name(char_name)
 
-        self.badname = True
+        self.bad_name = True
         # formatting  character name
-        self.charname = charname.title()
-        return self.charname
+        self.char_name = char_name.title()
+        return self.char_name
 
     # Used to check names for numbers and flag them if that is the case
-    def checkname(self, name):
+    def check_name(self, name):
         for letter in name:
             if letter.isdigit():
-                self.badname = True
+                self.bad_name = True
                 print("You can't enter numbers.")
             else:
-                self.badname = False
-            return self.badname
+                self.bad_name = False
+            return self.bad_name
 
 
 class Job:
 
     def __init__(self):
-        self.nojob = True
-        self.checkjob = {}
-        self.confirmjob = {}
+        self.no_job = True
+        self.check_job = {}
+        self.confirm_job = {}
         self.str = 0
         self.dex = 0
         self.con = 0
@@ -70,54 +70,54 @@ class Job:
         self.cha = 0
 
     # showing job options
-    def showjob(self):
+    def show_job(self):
         questions = {
             "type": "list",
             "name": "job",
             "message": "Choose your class",
             "choices": ["Archer", "Barbarian", "Cleric", "Druid", "Fighter", "Wizard"]
         }
-        self.checkjob = prompt(questions)
-        self.nojob = False
+        self.check_job = prompt(questions)
+        self.no_job = False
 
     # assigning stats based on class
-    def addclassstats(self):
-        if self.checkjob.get("job") == "Archer":
+    def add_class_stats(self):
+        if self.check_job.get("job") == "Archer":
             self.str = 0
             self.dex = 1
             self.con = 1
             self.int = -1
             self.wis = 0
             self.cha = -1
-        elif self.checkjob.get("job") == "Barbarian":
+        elif self.check_job.get("job") == "Barbarian":
             self.str = 2
             self.dex = 0
             self.con = 1
             self.int = -1
             self.wis = -1
             self.cha = 0
-        elif self.checkjob.get("job") == "Cleric":
+        elif self.check_job.get("job") == "Cleric":
             self.str = -2
             self.dex = 0
             self.con = 1
             self.int = 0
             self.wis = 2
             self.cha = 0
-        elif self.checkjob.get("job") == "Druid":
+        elif self.check_job.get("job") == "Druid":
             self.str = -1
             self.dex = 1
             self.con = 1
             self.int = 0
             self.wis = 2
             self.cha = -1
-        elif self.checkjob.get("job") == "Fighter":
+        elif self.check_job.get("job") == "Fighter":
             self.str = 1
             self.dex = 1
             self.con = 1
             self.int = -1
             self.wis = 0
             self.cha = 0
-        elif self.checkjob.get("job") == "Wizard":
+        elif self.check_job.get("job") == "Wizard":
             self.str = -1
             self.dex = 0
             self.con = -1
@@ -125,7 +125,7 @@ class Job:
             self.wis = 0
             self.cha = 1
 
-    def listjob(self):
+    def list_job(self):
         print(
             """
             
@@ -138,18 +138,18 @@ class Job:
             CHA: {}
             
             """
-            .format(self.checkjob.get("job"), self.str, self.dex, self.con, self.int, self.wis, self.cha)
+            .format(self.check_job.get("job"), self.str, self.dex, self.con, self.int, self.wis, self.cha)
         )
         questions = {
             "type": "confirm",
-            "name": "jobconf",
+            "name": "job_conf",
             "message": "Would you like to select this class?"
         }
-        self.confirmjob = prompt(questions)
-        if self.confirmjob.get("jobconf") is True:
-            self.nojob = False
+        self.confirm_job = prompt(questions)
+        if self.confirm_job.get("job_conf") is True:
+            self.no_job = False
         else:
-            self.nojob = True
+            self.no_job = True
 
 
 class Character(Name, Job):
@@ -162,19 +162,19 @@ class Play:
 
     # player name creation
     player = Character()
-    player.playername()
-    print("Welcome " + player.firstname, player.lastname + " please enjoy my Character Creator.")
+    player.player_name()
+    print("Welcome " + player.first_name, player.last_name + " please enjoy my Character Creator.")
 
     # character name creation
-    player.avname()
-    print(player.charname + " is a fine name!")
+    player.av_name()
+    print(player.char_name + " is a fine name!")
 
     # player job selection
-    player.nojob = True
-    while player.nojob:
-        player.showjob()
-        player.addclassstats()
-        player.listjob()
+    player.no_job = True
+    while player.no_job:
+        player.show_job()
+        player.add_class_stats()
+        player.list_job()
 
     pprint("End of program")
 
